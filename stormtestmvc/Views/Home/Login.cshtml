@@ -1,0 +1,72 @@
+﻿@model LoginModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+
+<body>
+    @using (Html.BeginForm(
+            "Login",
+            "Public",
+            FormMethod.Post, 
+            new { name = "frmLogin", id = "frmLogin" }
+            ))
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            <h1>Sign in to access the secret page</h1>
+            <div class="d-flex flex-column col-sm-3">
+                <input type="hidden" id = 'appId' value='3c5c24ab-0c2a-e911-80f6-005056b44f8f' />
+                <label for="username">
+                    @Html.EditorFor(model => model.Username)
+                    @Html.ValidationMessageFor(model => model.Username)
+                </label>
+                <label for="password">
+                    @Html.PasswordFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password)
+                </label>
+                <button type="submit" id='btnSubmit' class="btn btn-success">
+                    login
+                </button>
+                @Html.ValidationSummary(true)
+            </div>
+        </div>
+    }
+@section scripts
+{
+    <script>
+    $(document).ready(function(){
+        $("#frmLogin").submit(function (e) {
+            e.preventDefault();
+            fetch('/account/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(
+                    {
+                        "Email" : $('#Username').val(),
+                        "Password" : $('#Password').val(),
+                        "AppId" : $('#AppId').val()
+                    })
+            })
+                    /* Whatever .Net is returning us here sure isn't JSON :0( */
+                    .then(response => response.body)
+                    .then(body => body.reader())
+                    .then((jwt) = > { //3 levels later and still unwrapping ......
+                        console.log(jwt.read()); 
+                    })
+            return false;
+        });
+    });
+    </script>
+}
+</body>
+</html>
