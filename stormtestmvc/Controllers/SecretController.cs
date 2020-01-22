@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace stormtestmvc.Controllers
 {
 
-    //[Authorize]
+    [Authorize]
     public class SecretController : Controller
     {
         public IActionResult Index()
