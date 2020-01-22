@@ -1,28 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj": {}
+    "C:\\github\\victorsaly\\stormtest\\stormtestmvc\\stormtestmvc.csproj": {}
   },
   "projects": {
-    "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj": {
+    "C:\\github\\victorsaly\\stormtest\\stormtestmvc\\stormtestmvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj",
+        "projectUniqueName": "C:\\github\\victorsaly\\stormtest\\stormtestmvc\\stormtestmvc.csproj",
         "projectName": "stormtestmvc",
-        "projectPath": "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj",
-        "packagesPath": "/home/charlie/.nuget/packages/",
-        "outputPath": "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/obj/",
+        "projectPath": "C:\\github\\victorsaly\\stormtest\\stormtestmvc\\stormtestmvc.csproj",
+        "packagesPath": "C:\\Users\\salys\\.nuget\\packages\\",
+        "outputPath": "C:\\github\\victorsaly\\stormtest\\stormtestmvc\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/charlie/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\salys\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -62,10 +64,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

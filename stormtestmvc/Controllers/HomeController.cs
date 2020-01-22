@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using stormtestmvc.Models;
+using System.Diagnostics;
 
 namespace stormtestmvc.Controllers
 {
@@ -13,22 +9,6 @@ namespace stormtestmvc.Controllers
         public IActionResult Index()
         {
             return View();
-        }
-
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Login(LoginModel model)
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Login Post Method");
-            Console.WriteLine(model.ToString());
-            Console.ResetColor();
-            return Ok("Test");
         }
 
         public IActionResult Privacy()
