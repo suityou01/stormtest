@@ -1,0 +1,43 @@
+﻿@model LoginModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+
+<body>
+    @using (Html.BeginForm(
+            "Login",
+            "Account",
+            FormMethod.Post, 
+            new { name = "frmLogin", id = "frmLogin" }
+            ))
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            <h1>Sign in to access the secret page</h1>
+            <div class="d-flex flex-column col-sm-3">
+                <input type="text" id="AppId" name="AppId" value="3c5c24ab-0c2a-e911-80f6-005056b44f8f" />
+                <label for="username">
+                    @Html.EditorFor(model => model.Username)
+                    @Html.ValidationMessageFor(model => model.Username)
+                </label>
+                <label for="password">
+                    @Html.PasswordFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password)
+                </label>
+                <button type="submit" id='btnSubmit' class="btn btn-success">
+                    login
+                </button>
+                @Html.ValidationSummary(false)
+            </div>
+        </div>
+    }
+</body>
+</html>

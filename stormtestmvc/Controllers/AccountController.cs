@@ -1,130 +1,109 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using stormtestmvc.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace stormtestmvc.Controllers
 {
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
 
-        public AccountController(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IConfiguration configuration
-            )
+        public AccountController(IConfiguration configuration)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _configuration =     configuration;
+            _configuration = configuration;
         }
-        
-        [HttpPost]
-        public async Task<object> Login([FromBody] LoginDto model)
-        {
-            try
-            {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-            
-                if (result.Succeeded)
-                {
-                    var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                    return Ok(await GenerateJwtToken(model.Email, appUser));
-                }
-            }
-            catch(Exception e)
-            {
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine(e.ToString());
-                Console.ResetColor();
-            }
-            throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
-        }
-       
-        [HttpPost]
-        public async Task<object> Register([FromBody] RegisterDto model)
-        {
 
-            var user = new IdentityUser
-            {
-                UserName = model.Email, 
-                Email = model.Email
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
-                return await GenerateJwtToken(model.Email, user);
-            }
-            else
-            {
-                foreach(IdentityError e in result.Errors)
-                {
-                    Console.ForegroundColor=ConsoleColor.Cyan;
-                    Console.WriteLine("Registration Error : " + e.Description);
-                    Console.ResetColor();
-                }
-                return result.Errors.ToString();
-            }
-            
-        }
-        
-        private async Task<object> GenerateJwtToken(string email, IdentityUser user)
+        public IActionResult Index()
         {
-            var claims = new List<Claim>
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            var model = new LoginModel
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
+                Username = "Development.Team@storm-technologies.com",
+                Password = "-!NmmQR2pbmJSQ7"
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
-
-            var token = new JwtSecurityToken(
-                _configuration["JwtIssuer"],
-                _configuration["JwtIssuer"],
-                claims,
-                expires: expires,
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return View(model);
         }
-        
-        public class LoginDto
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginModel model)
         {
-            [Required]
-            public string Email { get; set; }
+            if (ModelState.IsValid)
+            {
+                // get variables
+                string baseUrl = _configuration["Authentication:StormTech:BaseUrl"];
+                string applicationId = _configuration["Authentication:StormTech:AppId"];
 
-            [Required]
-            public string Password { get; set; }
+                // call a simple http client to call storm JWT and authorize user 
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(baseUrl);
+                var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+                client.DefaultRequestHeaders.Accept.Add(contentType);
+                string data = JsonConvert.SerializeObject(new
+                {
+                    userName = model.Username,
+                    password = model.Password,
+                    applicationId
+                });
+                var content = new StringContent(data, Encoding.UTF8, "application/json");
 
+                HttpResponseMessage response = client.PostAsync("/client/v1/token", content).Result;
+
+                // if status sucess then add cookies with exisitng username and expiry date from the token
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = response.Content.ReadAsStringAsync().Result;
+                    JWTModel jwt = JsonConvert.DeserializeObject<JWTModel>(result);
+
+                    var claims = new[] { new Claim(ClaimTypes.Name, model.Username) };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    
+                    var authProperties = new AuthenticationProperties
+                    {
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(jwt.Expires_In)
+                    };
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                            new ClaimsPrincipal(identity),
+                                            authProperties);
+
+                    // redirect to private section
+                    return RedirectToAction("index", "secret");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                }
+            }
+
+            return View(model);
         }
-        
-        public class RegisterDto
-        {
-            [Required]
-            public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "PASSWORD_MIN_LENGTH", MinimumLength = 6)]
-            public string Password { get; set; }
+        public async Task<ActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Redirect user to Public Site
+            return RedirectToAction("index", "home");
         }
     }
 }
