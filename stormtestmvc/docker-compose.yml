@@ -1,0 +1,29 @@
+version: "3"
+services:
+    web:
+        build: .
+        ports:
+            - "3000:5000"
+            - "3001:5001"
+        volumes:
+            - ./:/app
+        depends_on:
+            - db
+            - nginx
+    db:
+        image: "mcr.microsoft.com/mssql/server"
+        ports:
+            - 1433:1433
+        environment:
+            SA_PASSWORD: "Your_password123"
+            ACCEPT_EULA: "Y"
+
+    nginx: 
+        image: nginx:latest
+        container_name: corsworkaround
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+            - ./log:/var/log/nginx/log
+        ports:
+            - 80:80
+  

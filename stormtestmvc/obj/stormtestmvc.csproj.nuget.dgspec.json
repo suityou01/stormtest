@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj": {}
+    "/app/stormtestmvc.csproj": {}
   },
   "projects": {
-    "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj": {
+    "/app/stormtestmvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj",
+        "projectUniqueName": "/app/stormtestmvc.csproj",
         "projectName": "stormtestmvc",
-        "projectPath": "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj",
-        "packagesPath": "/home/charlie/.nuget/packages/",
-        "outputPath": "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/obj/",
+        "projectPath": "/app/stormtestmvc.csproj",
+        "packagesPath": "/root/.nuget/packages/",
+        "outputPath": "/app/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/charlie/.nuget/NuGet/NuGet.Config"
+          "/root/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
@@ -49,6 +49,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.2.6, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",

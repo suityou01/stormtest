@@ -14,8 +14,6 @@ namespace stormtestmvc.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required]
-        public string AppId {get; set; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -25,7 +23,7 @@ namespace stormtestmvc.Models
         }
 
         public override string ToString(){
-            return "Username[" + this.Username + "] Password[" + this.Password + "] AppId[" + this.AppId + "]"; 
+            return "Username[" + this.Username + "] Password[" + this.Password + "] AppId[" + "]"; 
         }
     }
 }

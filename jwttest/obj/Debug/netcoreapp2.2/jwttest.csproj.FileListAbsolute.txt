@@ -1,0 +1,11 @@
+/home/charlie/storm/CBSStormTestMVC/jwttest/obj/Debug/netcoreapp2.2/jwttest.csprojAssemblyReference.cache
+/home/charlie/storm/CBSStormTestMVC/jwttest/obj/Debug/netcoreapp2.2/jwttest.csproj.CoreCompileInputs.cache
+/home/charlie/storm/CBSStormTestMVC/jwttest/obj/Debug/netcoreapp2.2/jwttest.AssemblyInfoInputs.cache
+/home/charlie/storm/CBSStormTestMVC/jwttest/obj/Debug/netcoreapp2.2/jwttest.AssemblyInfo.cs
+/home/charlie/storm/CBSStormTestMVC/jwttest/bin/Debug/netcoreapp2.2/jwttest.deps.json
+/home/charlie/storm/CBSStormTestMVC/jwttest/bin/Debug/netcoreapp2.2/jwttest.runtimeconfig.json
+/home/charlie/storm/CBSStormTestMVC/jwttest/bin/Debug/netcoreapp2.2/jwttest.runtimeconfig.dev.json
+/home/charlie/storm/CBSStormTestMVC/jwttest/bin/Debug/netcoreapp2.2/jwttest.dll
+/home/charlie/storm/CBSStormTestMVC/jwttest/bin/Debug/netcoreapp2.2/jwttest.pdb
+/home/charlie/storm/CBSStormTestMVC/jwttest/obj/Debug/netcoreapp2.2/jwttest.dll
+/home/charlie/storm/CBSStormTestMVC/jwttest/obj/Debug/netcoreapp2.2/jwttest.pdb

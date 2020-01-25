@@ -1,0 +1,62 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/charlie/storm/CBSStormTestMVC/jwttest/jwttest.csproj": {}
+  },
+  "projects": {
+    "/home/charlie/storm/CBSStormTestMVC/jwttest/jwttest.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/charlie/storm/CBSStormTestMVC/jwttest/jwttest.csproj",
+        "projectName": "jwttest",
+        "projectPath": "/home/charlie/storm/CBSStormTestMVC/jwttest/jwttest.csproj",
+        "packagesPath": "/home/charlie/.nuget/packages/",
+        "outputPath": "/home/charlie/storm/CBSStormTestMVC/jwttest/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/home/charlie/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.AspNet.WebApi.Client": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

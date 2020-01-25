@@ -44,26 +44,31 @@
     <script>
     $(document).ready(function(){
         $("#frmLogin").submit(function (e) {
-            e.preventDefault();
-            fetch('/account/login/', {
+            try
+            {
+                e.preventDefault();
+                fetch('http://localhost/client/v1/token', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+                headers: { 
+                    'Content-Type' : 'application/json',
                 },
                 body: JSON.stringify(
                     {
-                        "Email" : $('#Username').val(),
-                        "Password" : $('#Password').val(),
-                        "AppId" : $('#AppId').val()
+                        "userName" : $('#Username').val(),
+                        "password" : $('#Password').val(),
+                        "applicationId" : $('#appId').val()
                     })
             })
-                    /* Whatever .Net is returning us here sure isn't JSON :0( */
-                    .then(response => response.body)
-                    .then(body => body.reader())
-                    .then((jwt) = > { //3 levels later and still unwrapping ......
-                        console.log(jwt.read()); 
-                    })
-            return false;
+                .then(body => {
+                    console.log(body.json() );
+                })
+                    
+                return false;
+            }
+            catch(e)
+            {
+                console.log(e);
+            }
         });
     });
     </script>
