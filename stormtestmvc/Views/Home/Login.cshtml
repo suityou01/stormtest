@@ -59,8 +59,11 @@
                         "applicationId" : $('#appId').val()
                     })
             })
-                .then(body => {
-                    console.log(body.json() );
+                .then(response => response.json())
+                .then(jwt => {
+                    console.log(jwt);
+                    localStorage.setItem('currentUser', jwt);
+                    window.location = 'viewemployees';
                 })
                     
                 return false;

@@ -1,0 +1,32 @@
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>View Employees</title>
+</head>
+<body>
+
+@section scripts
+{
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const pageNumber = urlParams.get('pageNumber');
+        fetch('employees', {
+                method: 'GET',
+                headers: { 
+                    'Content-Type' : 'application/json',
+                    'Authorization' : 'Bearer:' + localStorage.getItem('currentUser').toString()
+                }
+            })
+                .then(response => response.json())
+                .then(employees => {
+                    console.log(employees);
+                })
+    </script>
+}
+</body>
+</html>

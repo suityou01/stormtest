@@ -14,24 +14,26 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using stormtestmvc.Data;
+using stormtestmvc.filters;
+using stormtestmvc.helpers;
 using stormtestmvc.Models;
 
 namespace stormtestmvc.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly int _pageSize;
         public HomeController(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            ApplicationDbContext context,
             IConfiguration configuration
             )
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _context = context;
             _configuration =     configuration;
+            _pageSize = int.Parse(_configuration["PAGE_SIZE"]);
         }
 
         public IActionResult Index()
@@ -50,59 +52,21 @@ namespace stormtestmvc.Controllers
             });
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> ViewEmployees(int? pageNumber)
         {
-            if (ModelState.IsValid)
-            {
-                // get variables
-                string baseUrl = _configuration["Authentication:StormTech:BaseUrl"];
-                string applicationId = _configuration["Authentication:StormTech:AppId"];
+            return View(pageNumber);
+        }
 
-                // call a simple http client to call storm JWT and authorize user 
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(baseUrl);
-                var contentType = new MediaTypeWithQualityHeaderValue("application/json");
-                client.DefaultRequestHeaders.Accept.Add(contentType);
-                string data = JsonConvert.SerializeObject(new
-                {
-                    userName = model.Username,
-                    password = model.Password,
-                    applicationId
-                });
-                var content = new StringContent(data, Encoding.UTF8, "application/json");
+        [Authorize("has:token")]
+        public async Task<IActionResult> Employees(int? pageNumber)
+        {
+            return Ok(await PaginatedList<Employee>.CreateAsync(_context.Employees, pageNumber ?? 1, _pageSize));
+        }
 
-                HttpResponseMessage response = client.PostAsync("https://auth-dev.storm-technologies.com/client/v1/token", content).Result;
-
-                // if status sucess then add cookies with exisitng username and expiry date from the token
-                if (response.IsSuccessStatusCode)
-                {
-                    string result = response.Content.ReadAsStringAsync().Result;
-                    JWTModel jwt = JsonConvert.DeserializeObject<JWTModel>(result);
-
-                    var claims = new[] { new Claim(ClaimTypes.Name, model.Username) };
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    
-                    var authProperties = new AuthenticationProperties
-                    {
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(jwt.Expires_In)
-                    };
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                                            new ClaimsPrincipal(identity),
-                                            authProperties);
-
-                    // redirect to private section
-                    return RedirectToAction("index", "secret");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                }
-            }
-
-            return View(model);
+        [Authorize("has:token")]
+        public async Task<IActionResult> Departments(int? pageNumber)
+        {
+            return Ok(await PaginatedList<Department>.CreateAsync(_context.Departments, pageNumber ?? 1, _pageSize));
         }
 
         public IActionResult Privacy()

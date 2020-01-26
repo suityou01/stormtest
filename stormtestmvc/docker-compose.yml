@@ -6,7 +6,7 @@ services:
             - "3000:5000"
             - "3001:5001"
         volumes:
-            - ./:/app
+            - ./:/app/
         depends_on:
             - db
             - nginx

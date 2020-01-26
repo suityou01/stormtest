@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/app/stormtestmvc.csproj": {}
+    "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj": {}
   },
   "projects": {
-    "/app/stormtestmvc.csproj": {
+    "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/app/stormtestmvc.csproj",
+        "projectUniqueName": "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj",
         "projectName": "stormtestmvc",
-        "projectPath": "/app/stormtestmvc.csproj",
-        "packagesPath": "/root/.nuget/packages/",
-        "outputPath": "/app/obj/",
+        "projectPath": "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/stormtestmvc.csproj",
+        "packagesPath": "/home/charlie/.nuget/packages/",
+        "outputPath": "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/root/.nuget/NuGet/NuGet.Config"
+          "/home/charlie/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
