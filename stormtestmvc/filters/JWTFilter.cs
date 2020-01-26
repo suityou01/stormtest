@@ -20,14 +20,10 @@ namespace stormtestmvc.filters
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, HasTokenRequirement requirement)
     {
         var authFilterCtx = (Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)context.Resource;
-        Console.WriteLine("*******************************************************************************");
-        Console.WriteLine("authFilterCtx.authFilterCtx.HttpContext.Request.Headers[" + authFilterCtx.HttpContext.Request.Headers.ToString() + "]");
         string authHeader = authFilterCtx.HttpContext.Request.Headers["Authorization"];
-        Console.WriteLine("authHeader[" + authHeader + "]");
         if (authHeader != null && authHeader.Contains("Bearer"))
         {
             var token = authHeader.Replace("Bearer", "");
-            Console.WriteLine(token);
             context.Succeed(requirement);
             return Task.CompletedTask;
         }
