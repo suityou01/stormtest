@@ -1,0 +1,15 @@
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>View Employees</title>
+</head>
+<body>
+    <ac-input url='/home/departments/' width='250px' placeholder='Select department' itemtemplate="<div class='resultItem' id='${id}'><i>${description}</i></div>" multiselect ></ac-input> 
+    <script type="module" src="/js/autocomplete.component.js"></script>
+</body>
+</html>

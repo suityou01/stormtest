@@ -52,6 +52,13 @@ namespace stormtestmvc.Controllers
             });
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Employee()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> ViewEmployees(int? pageNumber)
         {
             return View(pageNumber);
@@ -63,7 +70,6 @@ namespace stormtestmvc.Controllers
             return Ok(await PaginatedList<Employee>.CreateAsync(_context.Employees, pageNumber ?? 1, _pageSize));
         }
 
-        [Authorize("has:token")]
         public async Task<IActionResult> Departments(int? pageNumber)
         {
             return Ok(await PaginatedList<Department>.CreateAsync(_context.Departments, pageNumber ?? 1, _pageSize));

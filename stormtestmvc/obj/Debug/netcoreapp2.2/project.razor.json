@@ -3011,6 +3011,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/Views/Home/Employee.cshtml",
+      "TargetPath": "Views/Home/Employee.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/home/charlie/storm/CBSStormTestMVC/stormtestmvc/Areas/Identity/Pages/_ViewStart.cshtml",
       "TargetPath": "Areas/Identity/Pages/_ViewStart.cshtml",
       "FileKind": "mvc"

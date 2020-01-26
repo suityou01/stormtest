@@ -33,6 +33,7 @@
 /app/obj/Debug/netcoreapp2.2/stormtestmvc.pdb
 /app/obj/Debug/netcoreapp2.2/stormtestmvc.csproj.CopyComplete
 /app/obj/Debug/netcoreapp2.2/Razor/Views/Home/ViewEmployees.g.cshtml.cs
+/app/obj/Debug/netcoreapp2.2/Razor/Views/Home/Employee.g.cshtml.cs
 /home/charlie/storm/CBSStormTestMVC/stormtestmvc/bin/Debug/netcoreapp2.2/app.db
 /home/charlie/storm/CBSStormTestMVC/stormtestmvc/bin/Debug/netcoreapp2.2/stormtestmvc.deps.json
 /home/charlie/storm/CBSStormTestMVC/stormtestmvc/bin/Debug/netcoreapp2.2/stormtestmvc.runtimeconfig.json
@@ -51,6 +52,7 @@
 /home/charlie/storm/CBSStormTestMVC/stormtestmvc/obj/Debug/netcoreapp2.2/stormtestmvc.TagHelpers.output.cache
 /home/charlie/storm/CBSStormTestMVC/stormtestmvc/obj/Debug/netcoreapp2.2/stormtestmvc.RazorCoreGenerate.cache
 /home/charlie/storm/CBSStormTestMVC/stormtestmvc/obj/Debug/netcoreapp2.2/Razor/Areas/Identity/Pages/_ViewStart.g.cshtml.cs
+/home/charlie/storm/CBSStormTestMVC/stormtestmvc/obj/Debug/netcoreapp2.2/Razor/Views/Home/Employee.g.cshtml.cs
 /home/charlie/storm/CBSStormTestMVC/stormtestmvc/obj/Debug/netcoreapp2.2/Razor/Views/Home/Index.g.cshtml.cs
 /home/charlie/storm/CBSStormTestMVC/stormtestmvc/obj/Debug/netcoreapp2.2/Razor/Views/Home/Login.g.cshtml.cs
 /home/charlie/storm/CBSStormTestMVC/stormtestmvc/obj/Debug/netcoreapp2.2/Razor/Views/Home/Privacy.g.cshtml.cs
