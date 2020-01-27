@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using stormtestmvc.Data;
@@ -59,20 +60,42 @@ namespace stormtestmvc.Controllers
             return View();
         }
 
+        [HttpGet]
         public async Task<IActionResult> ViewEmployees(int? pageNumber)
         {
             return View(pageNumber);
         }
 
+        [HttpGet]
+        [Authorize("has:token")]
+        public async Task<IActionResult> EmployeeById(int id)
+        {
+            return Ok(await _context.Employees.Where(e => e.Id == id).SingleOrDefaultAsync());
+        }
+
+        [HttpGet]
         [Authorize("has:token")]
         public async Task<IActionResult> Employees(int? pageNumber)
         {
             return Ok(await PaginatedList<Employee>.CreateAsync(_context.Employees, pageNumber ?? 1, _pageSize));
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Departments(int? pageNumber)
         {
             return Ok(await PaginatedList<Department>.CreateAsync(_context.Departments, pageNumber ?? 1, _pageSize));
+        }
+
+        [HttpGet]
+        [Authorize("has:token")]
+        public async Task<IActionResult> EmployeeDepartments(int employeeId)
+        {
+            return Ok(from department in _context.Set<Department>()
+                join employeedepartmentmap in _context.Set<EmployeeDepartmentMap>()
+                    on department.Id equals employeedepartmentmap.department.Id
+                    where(employeedepartmentmap.employee.Id == employeeId)
+                select new { department.Id, department.Code, department.Description });
         }
 
         public IActionResult Privacy()

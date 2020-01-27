@@ -9,12 +9,61 @@
     <title>View Employees</title>
 </head>
 <body>
-
+    <div class="container">
+        <div class="row border-0">
+            <div class="col">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Employees
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover" id='employeeTable'>
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">First</th>
+                                    <th scope="col">Last</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Identifier</th>
+                                    <th scope="col">Created Date</th>
+                                    <th scope="col">isDeleted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <div id='pagination'></div>
+                        <nav aria-label="...">
+                            <ul class="pagination pagination-sm float-right">
+                                <li class="page-item" id="page1"><a class="page-link" href="/home/viewemployees?pageNumber=1">1</a></li>
+                                <li class="page-item" id="page2"><a class="page-link" href="/home/viewemployees?pageNumber=2">2</a></li>
+                                <li class="page-item" id="page3"><a class="page-link" href="/home/viewemployees?pageNumber=3">3</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <template id='rowtemplate'>
+        <tr>
+            <th scope="row">Id</th>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Email Address</td>
+            <td>Identifier</td>
+            <td>Created Date</td>
+            <td>Is Deleted</td>
+        </tr>
+    </template>
 @section scripts
 {
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const pageNumber = urlParams.get('pageNumber');
+        
         fetch('employees', {
                 method: 'GET',
                 headers: { 
@@ -24,8 +73,25 @@
             })
                 .then(response => response.json())
                 .then(employees => {
-                    console.log(employees);
+                    var tableBody = document.getElementById('employeeTable').getElementsByTagName('tbody')[0];
+                    [...employees].forEach((item)=>{
+                        empRow=document.getElementById("rowtemplate");
+                        var clon = empRow.content.cloneNode(true);
+                        clon.firstElementChild.getElementsByTagName('th')[0].innerHTML = "<a href='/home/employee?id=" + item.id + "'>" + item.id + "</a>";
+                        clon.firstElementChild.getElementsByTagName('td')[0].innerText = item.first_Name;
+                        clon.firstElementChild.getElementsByTagName('td')[1].innerText = item.last_Name;
+                        clon.firstElementChild.getElementsByTagName('td')[2].innerText = item.email;
+                        clon.firstElementChild.getElementsByTagName('td')[3].innerText = item.identifier;
+                        clon.firstElementChild.getElementsByTagName('td')[4].innerText = moment(item.createdDate).format('DD/MM/YYYY');
+                        clon.firstElementChild.getElementsByTagName('td')[5].innerText = item.isDeleted;
+                        tableBody.appendChild(clon);
+                    });
                 })
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('#page' + pageNumber).addClass('active');
+        });
     </script>
 }
 </body>

@@ -9,7 +9,101 @@
     <title>View Employees</title>
 </head>
 <body>
-    <ac-input url='/home/departments/' width='250px' placeholder='Select department' itemtemplate="<div class='resultItem' id='${id}'><i>${description}</i></div>" multiselect ></ac-input> 
+    <div class="container">
+        <div class="row border-0">
+            <div class="col">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Employee
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover" id='employeeTable'>
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">First</th>
+                                    <th scope="col">Last</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Identifier</th>
+                                    <th scope="col">Created Date</th>
+                                    <th scope="col">isDeleted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Id</th>
+                                    <td>First Name</td>
+                                    <td>Last Name</td>
+                                    <td>Email Address</td>
+                                    <td>Identifier</td>
+                                    <td>Created Date</td>
+                                    <td>Is Deleted</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-header">
+                        Departments
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover" id='employeeDepartmentsTable'>
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class='d-flex flex-row'>
+                    <div class='p-1'>
+                        <ac-input url='/home/departments/' width='250px' placeholder='Select department' itemtemplate="<div class='resultItem' id='${id}'><i>${description}</i></div>" multiselect ></ac-input> 
+                    </div>
+                    <div class='p-1'></div>
+                        <button class='btn btn-success' id='adddepartments'>+ Add Departments</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script type="module" src="/js/autocomplete.component.js"></script>
+    @section scripts{
+        <script>
+             const urlParams = new URLSearchParams(window.location.search);
+             const employeeid = urlParams.get('id');
+            fetch('employeebyid?id=' + employeeid, {
+                method: 'GET',
+                headers: { 
+                    'Content-Type' : 'application/json',
+                    'Authorization' : 'Bearer:' + localStorage.getItem('currentUser').toString()
+                }
+            })
+                .then(response => response.json())
+                .then(employee => {
+                    var tableBody = document.getElementById('employeeTable').getElementsByTagName('tbody')[0];
+                    tableBody.firstElementChild.getElementsByTagName('th')[0].innerText = employee.id;
+                    tableBody.firstElementChild.getElementsByTagName('td')[0].innerText = employee.first_Name;
+                    tableBody.firstElementChild.getElementsByTagName('td')[1].innerText = employee.last_Name;
+                    tableBody.firstElementChild.getElementsByTagName('td')[2].innerText = employee.email;
+                    tableBody.firstElementChild.getElementsByTagName('td')[3].innerText = employee.identifier;
+                    tableBody.firstElementChild.getElementsByTagName('td')[4].innerText = moment(employee.createdDate).format('DD/MM/YYYY');
+                    tableBody.firstElementChild.getElementsByTagName('td')[5].innerText = employee.isDeleted;        
+                })
+        </script>
+        <script>
+        $(document).ready(function(){
+            $('#adddepartments').click(()=>{
+                alert("Click!");
+            });
+        });
+    </script>
+    }
 </body>
 </html>
